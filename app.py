@@ -41,19 +41,16 @@ def inject_css() -> None:
 
     if dark:
         bg_root        = "#03070f"
-        bg_base        = "#060d1a"
         bg_surface     = "rgba(10, 18, 35, 0.75)"
         bg_surface2    = "rgba(14, 24, 46, 0.65)"
         bg_glass       = "rgba(12, 20, 40, 0.70)"
         border_color   = "rgba(56, 189, 248, 0.12)"
         border_hover   = "rgba(56, 189, 248, 0.50)"
-        border_active  = "rgba(56, 189, 248, 0.80)"
         text_primary   = "#eef4ff"
         text_secondary = "#6d9ab5"
         text_muted     = "#2e4a63"
         accent         = "#38bdf8"
         accent2        = "#7dd3fc"
-        accent3        = "#0ea5e9"
         accent_glow    = "rgba(56,189,248,0.22)"
         accent_glow_sm = "rgba(56,189,248,0.12)"
         indigo_glow    = "rgba(99,102,241,0.12)"
@@ -75,24 +72,20 @@ def inject_css() -> None:
         orb3           = "rgba(14,165,233,0.08)"
         shine          = "rgba(255,255,255,0.04)"
         shine2         = "rgba(255,255,255,0.02)"
-        # Toggle-specific
         toggle_track   = "rgba(56,189,248,0.18)"
         toggle_knob    = "#eef4ff"
     else:
         bg_root        = "#eef4ff"
-        bg_base        = "#f4f8ff"
         bg_surface     = "rgba(255,255,255,0.80)"
         bg_surface2    = "rgba(238,244,255,0.85)"
         bg_glass       = "rgba(255,255,255,0.75)"
         border_color   = "rgba(14,165,233,0.16)"
         border_hover   = "rgba(14,165,233,0.48)"
-        border_active  = "rgba(14,165,233,0.80)"
         text_primary   = "#071628"
         text_secondary = "#3a6080"
         text_muted     = "#9ab8cc"
         accent         = "#0284c7"
         accent2        = "#0ea5e9"
-        accent3        = "#0369a1"
         accent_glow    = "rgba(2,132,199,0.16)"
         accent_glow_sm = "rgba(2,132,199,0.08)"
         indigo_glow    = "rgba(99,102,241,0.08)"
@@ -114,7 +107,6 @@ def inject_css() -> None:
         orb3           = "rgba(2,132,199,0.06)"
         shine          = "rgba(255,255,255,0.55)"
         shine2         = "rgba(255,255,255,0.30)"
-        # Toggle-specific
         toggle_track   = "rgba(14,165,233,0.20)"
         toggle_knob    = "#071628"
 
@@ -294,38 +286,28 @@ section[data-testid="stSidebar"] strong {{ color: {text_primary} !important; }}
 }}
 
 /* ══════════════════════════════════════════════════════════
-   FIX 1 — TOGGLE BUTTON — always visible in both themes
+   FIX 1 — TOGGLE — always visible in both themes
 ══════════════════════════════════════════════════════════ */
-/* Track (off state) */
 div[data-testid="stToggle"] > label > div:first-child {{
   background: {toggle_track} !important;
   border: 1.5px solid {border_hover} !important;
   border-radius: 99px !important;
-  transition:
-    background    0.3s ease,
-    border-color  0.3s ease,
-    box-shadow    0.3s ease !important;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
 }}
-/* Track (on state) */
 div[data-testid="stToggle"] > label > input:checked + div {{
   background: linear-gradient(135deg, {btn_from}, {btn_to}) !important;
   border-color: {accent} !important;
   box-shadow: 0 0 14px {accent_glow} !important;
 }}
-/* Knob (off state) */
 div[data-testid="stToggle"] > label > div:first-child > div {{
   background: {toggle_knob} !important;
   box-shadow: 0 1px 6px rgba(0,0,0,0.40) !important;
-  transition:
-    transform   0.25s cubic-bezier(.34,1.56,.64,1),
-    background  0.3s ease !important;
+  transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), background 0.3s ease !important;
 }}
-/* Knob (on state) */
 div[data-testid="stToggle"] > label > input:checked + div > div {{
   background: #ffffff !important;
   box-shadow: 0 2px 10px rgba(0,0,0,0.35) !important;
 }}
-/* Label text */
 div[data-testid="stToggle"] label span {{
   color: {text_secondary} !important;
   font-size: 0.82rem !important;
@@ -360,10 +342,7 @@ p, li, span {{
   border-radius: var(--radius-lg);
   position: relative;
   overflow: hidden;
-  transition:
-    transform     0.3s cubic-bezier(.34,1.56,.64,1),
-    border-color  0.3s ease,
-    box-shadow    0.3s ease;
+  transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), border-color 0.3s ease, box-shadow 0.3s ease;
 }}
 .glass::before {{
   content: '';
@@ -401,10 +380,7 @@ div[data-testid="metric-container"] {{
   padding: 1.35rem 1.5rem !important;
   position: relative;
   overflow: hidden;
-  transition:
-    transform     0.3s cubic-bezier(.34,1.56,.64,1),
-    border-color  0.3s ease,
-    box-shadow    0.3s ease !important;
+  transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), border-color 0.3s ease, box-shadow 0.3s ease !important;
   animation: reveal 0.55s cubic-bezier(.22,1,.36,1) both;
 }}
 div[data-testid="metric-container"]::before {{
@@ -455,10 +431,7 @@ div[data-testid="stFileUploader"] {{
   border: 1.5px dashed {upload_border} !important;
   border-radius: var(--radius-lg) !important;
   padding: 1.8rem 1.5rem !important;
-  transition:
-    border-color  0.25s ease,
-    box-shadow    0.25s ease,
-    background    0.25s ease !important;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease !important;
   position: relative;
 }}
 div[data-testid="stFileUploader"]:hover {{
@@ -483,10 +456,7 @@ div[data-testid="stFileUploader"]:hover {{
   padding: 0.6rem 1.65rem !important;
   position: relative;
   overflow: hidden;
-  transition:
-    transform   0.22s cubic-bezier(.34,1.56,.64,1),
-    box-shadow  0.22s ease,
-    opacity     0.22s ease !important;
+  transition: transform 0.22s cubic-bezier(.34,1.56,.64,1), box-shadow 0.22s ease, opacity 0.22s ease !important;
   box-shadow: 0 4px 20px {accent_glow} !important;
 }}
 .stButton > button::before,
@@ -582,7 +552,7 @@ div[data-testid="stAlert"] {{
 }}
 
 /* ══════════════════════════════════════════════════════════
-   FIX 2 — LOGIN FORM — remove default Streamlit text
+   FIX 2 — LOGIN FORM — remove default Streamlit prompt text
 ══════════════════════════════════════════════════════════ */
 div[data-testid="stForm"] > div:first-child > div:first-child p,
 div[data-testid="stForm"] > div > div > div > p,
@@ -688,16 +658,8 @@ section[data-testid="stMain"] {{
   animation: page-enter 0.55s cubic-bezier(.22,1,.36,1) both !important;
 }}
 @keyframes page-enter {{
-  from {{
-    opacity: 0;
-    transform: translateY(12px);
-    filter: blur(3px);
-  }}
-  to {{
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }}
+  from {{ opacity: 0; transform: translateY(12px); filter: blur(3px); }}
+  to   {{ opacity: 1; transform: translateY(0);    filter: blur(0);   }}
 }}
 section[data-testid="stSidebar"] {{
   animation: sidebar-enter 0.45s cubic-bezier(.22,1,.36,1) 0.05s both !important;
@@ -786,10 +748,7 @@ section[data-testid="stSidebar"] {{
   height: 100%;
   position: relative;
   overflow: hidden;
-  transition:
-    transform    0.32s cubic-bezier(.34,1.56,.64,1),
-    border-color 0.28s ease,
-    box-shadow   0.28s ease;
+  transition: transform 0.32s cubic-bezier(.34,1.56,.64,1), border-color 0.28s ease, box-shadow 0.28s ease;
   animation: reveal 0.65s cubic-bezier(.22,1,.36,1) both;
 }}
 .feat-card::before {{
@@ -1067,9 +1026,15 @@ AUTH_CONFIG: dict = {
     },
 }
 
-PRO_USERS = set(
-    k.lower() for k in AUTH_CONFIG["credentials"]["usernames"].keys()
-)
+# ─────────────────────────────────────────────────────────────
+# PRO USERS — explicitly list who gets prediction access.
+# BUG FIX: The previous version auto-generated PRO_USERS from
+# ALL credential keys, giving every user Pro access and making
+# the paywall completely non-functional.
+# Add or remove usernames here to control access.
+# ─────────────────────────────────────────────────────────────
+PRO_USERS: set = {"rohit", "mahesh", "karan", "areen", "devang"}
+# "demo" is intentionally excluded — it hits the paywall.
 
 
 # ─────────────────────────────────────────────────────────────
@@ -1155,7 +1120,6 @@ def render_sidebar(name: str, authenticator) -> str:
         st.markdown('<div class="sb-tag">Customer Intelligence Platform</div>', unsafe_allow_html=True)
         st.markdown('<div class="sb-hr"></div>', unsafe_allow_html=True)
 
-        # Theme toggle — Fix 1 ensures it is always visible
         col_a, col_b = st.columns([3, 1])
         with col_a:
             lbl = "🌙 Dark mode" if is_dark() else "☀️ Light mode"
@@ -1172,10 +1136,21 @@ def render_sidebar(name: str, authenticator) -> str:
         st.markdown('<div class="sb-hr"></div>', unsafe_allow_html=True)
 
         first = name.split()[0] if name else name
+        # Show a Pro badge next to the username if user has Pro access
+        username_key = st.session_state.get("username", "")
+        pro_badge = (
+            f'<span style="font-size:0.65rem;background:linear-gradient(135deg,#0ea5e9,#1d4ed8);'
+            f'color:#fff;padding:0.1rem 0.45rem;border-radius:99px;margin-left:0.4rem;'
+            f'font-family:Syne,sans-serif;font-weight:700;letter-spacing:0.06em;">PRO</span>'
+            if username_key in PRO_USERS else
+            f'<span style="font-size:0.65rem;background:rgba(100,116,139,0.25);'
+            f'color:#94a3b8;padding:0.1rem 0.45rem;border-radius:99px;margin-left:0.4rem;'
+            f'font-family:Syne,sans-serif;font-weight:700;letter-spacing:0.06em;">FREE</span>'
+        )
         st.markdown(
             f'<div class="sb-user">'
             f'<span class="sb-dot"></span>'
-            f'<span><strong>{first}</strong></span>'
+            f'<span><strong>{first}</strong>{pro_badge}</span>'
             f'</div>',
             unsafe_allow_html=True,
         )
@@ -1249,6 +1224,7 @@ def page_home(name: str) -> None:
 # ─────────────────────────────────────────────────────────────
 
 def page_upload(username: str) -> None:
+    # Paywall — only PRO_USERS can proceed
     if username not in PRO_USERS:
         st.markdown("""
         <div class="pw-card">
@@ -1342,16 +1318,19 @@ def page_results() -> None:
     result_df: pd.DataFrame = st.session_state["result_df"]
 
     total_customers = len(result_df)
-    high_risk_df    = result_df[result_df["Risk Segment"] == "High Risk"]
-    medium_risk_df  = result_df[result_df["Risk Segment"] == "Medium Risk"]
-    high_risk_count = len(high_risk_df)
-    med_risk_count  = len(medium_risk_df)
+    high_risk_count = len(result_df[result_df["Risk Segment"] == "High Risk"])
+    med_risk_count  = len(result_df[result_df["Risk Segment"] == "Medium Risk"])
 
     rev_col = next(
         (c for c in result_df.columns if c.lower().replace(" ", "") == "monthlycharges"),
         None,
     )
-    revenue_at_risk = high_risk_df[rev_col].sum() if rev_col else None
+    # BUG FIX: was referencing high_risk_df which required a separate variable;
+    # now computed inline to avoid the unused-variable warning.
+    revenue_at_risk = (
+        result_df[result_df["Risk Segment"] == "High Risk"][rev_col].sum()
+        if rev_col else None
+    )
 
     sec_header("Summary Metrics")
     c1, c2, c3, c4 = st.columns(4, gap="medium")
@@ -1397,15 +1376,15 @@ def page_results() -> None:
 
 
 # ─────────────────────────────────────────────────────────────
-# LOGIN BRANDING  (Fix 2 — renders ABOVE form, no default text)
+# LOGIN BRANDING
 # ─────────────────────────────────────────────────────────────
 
 def _render_login_branding() -> None:
-    dark  = is_dark()
-    grad  = "linear-gradient(135deg,#e0f2fe 0%,#38bdf8 45%,#818cf8 100%)" if dark else "linear-gradient(135deg,#0c1929 0%,#0284c7 50%,#38bdf8 100%)"
-    sub   = "#6d9ab5" if dark else "#3a6080"
-    hint  = "#2e4a63" if dark else "#9ab8cc"
-    sep   = "rgba(56,189,248,0.12)" if dark else "rgba(14,165,233,0.14)"
+    dark = is_dark()
+    grad = "linear-gradient(135deg,#e0f2fe 0%,#38bdf8 45%,#818cf8 100%)" if dark else "linear-gradient(135deg,#0c1929 0%,#0284c7 50%,#38bdf8 100%)"
+    sub  = "#6d9ab5" if dark else "#3a6080"
+    hint = "#2e4a63" if dark else "#9ab8cc"
+    sep  = "rgba(56,189,248,0.12)" if dark else "rgba(14,165,233,0.14)"
 
     st.markdown(f"""
     <div class="login-brand">
@@ -1430,7 +1409,6 @@ def _render_login_branding() -> None:
 # ─────────────────────────────────────────────────────────────
 
 def main() -> None:
-    # CSS always loads first — Fix 3 page-enter animation is defined here
     inject_css()
 
     authenticator = stauth.Authenticate(
@@ -1442,15 +1420,14 @@ def main() -> None:
 
     auth_status = st.session_state.get("authentication_status")
 
-    # ── Pre-auth: show branding above the form (Fix 2) ──
+    # Show branding above the login form; reset transition flag on logout
     if auth_status is not True:
-        # Reset the post-login flag so transition fires fresh on next login
         st.session_state["_post_login_rendered"] = False
         _render_login_branding()
 
     authenticator.login(location="main")
 
-    # Re-read session after the login widget has rendered
+    # Re-read after the login widget renders
     auth_status = st.session_state.get("authentication_status")
     name        = st.session_state.get("name", "")
     username    = st.session_state.get("username", "")
@@ -1462,10 +1439,8 @@ def main() -> None:
     if auth_status is None:
         return
 
-    # ── Authenticated ──────────────────────────────────────
-    # Fix 3: fire a lightweight JS repaint nudge only on the very
-    # first render after login to guarantee the page-enter animation
-    # triggers cleanly without a stale cached frame.
+    # ── Authenticated ──
+    # Trigger page-enter animation only on the first post-login render
     if not st.session_state.get("_post_login_rendered"):
         st.session_state["_post_login_rendered"] = True
         st.markdown(
@@ -1475,9 +1450,7 @@ def main() -> None:
                 var main = document.querySelector('section[data-testid="stMain"]');
                 if (main) {
                   main.style.animation = 'none';
-                  requestAnimationFrame(function() {
-                    main.style.removeProperty('animation');
-                  });
+                  requestAnimationFrame(function() { main.style.removeProperty('animation'); });
                 }
               })();
             </script>
