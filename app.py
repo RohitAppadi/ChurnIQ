@@ -1,6 +1,6 @@
 """
 ChurnIQ · Customer Churn Prediction System
-Production-ready Streamlit app — Ultra Premium UI Edition.
+Production-ready Streamlit app — Ultra Premium UI Edition v2.
 
 Compatible with: streamlit-authenticator >= 0.3.0
 Requirements:
@@ -75,6 +75,9 @@ def inject_css() -> None:
         orb3           = "rgba(14,165,233,0.08)"
         shine          = "rgba(255,255,255,0.04)"
         shine2         = "rgba(255,255,255,0.02)"
+        # Toggle-specific
+        toggle_track   = "rgba(56,189,248,0.18)"
+        toggle_knob    = "#eef4ff"
     else:
         bg_root        = "#eef4ff"
         bg_base        = "#f4f8ff"
@@ -111,6 +114,9 @@ def inject_css() -> None:
         orb3           = "rgba(2,132,199,0.06)"
         shine          = "rgba(255,255,255,0.55)"
         shine2         = "rgba(255,255,255,0.30)"
+        # Toggle-specific
+        toggle_track   = "rgba(14,165,233,0.20)"
+        toggle_knob    = "#071628"
 
     st.markdown(f"""
 <style>
@@ -123,25 +129,25 @@ def inject_css() -> None:
    CUSTOM PROPERTIES
 ══════════════════════════════════════════════════════════ */
 :root {{
-  --accent:        {accent};
-  --accent2:       {accent2};
-  --accent-glow:   {accent_glow};
-  --border:        {border_color};
-  --border-hover:  {border_hover};
-  --text-primary:  {text_primary};
-  --text-secondary:{text_secondary};
-  --text-muted:    {text_muted};
-  --surface:       {bg_surface};
-  --surface2:      {bg_surface2};
-  --glass:         {bg_glass};
-  --shine:         {shine};
-  --shine2:        {shine2};
-  --btn-from:      {btn_from};
-  --btn-to:        {btn_to};
-  --radius-sm:     10px;
-  --radius-md:     16px;
-  --radius-lg:     22px;
-  --radius-xl:     28px;
+  --accent:         {accent};
+  --accent2:        {accent2};
+  --accent-glow:    {accent_glow};
+  --border:         {border_color};
+  --border-hover:   {border_hover};
+  --text-primary:   {text_primary};
+  --text-secondary: {text_secondary};
+  --text-muted:     {text_muted};
+  --surface:        {bg_surface};
+  --surface2:       {bg_surface2};
+  --glass:          {bg_glass};
+  --shine:          {shine};
+  --shine2:         {shine2};
+  --btn-from:       {btn_from};
+  --btn-to:         {btn_to};
+  --radius-sm:      10px;
+  --radius-md:      16px;
+  --radius-lg:      22px;
+  --radius-xl:      28px;
 }}
 
 /* ══════════════════════════════════════════════════════════
@@ -231,7 +237,7 @@ section[data-testid="stSidebar"] * {{
 }}
 section[data-testid="stSidebar"] strong {{ color: {text_primary} !important; }}
 
-/* ─── Sidebar components ─── */
+/* ─── Sidebar brand / tag / divider / user badge ─── */
 .sb-brand {{
   font-family: 'Syne', sans-serif;
   font-size: 1.6rem;
@@ -288,6 +294,46 @@ section[data-testid="stSidebar"] strong {{ color: {text_primary} !important; }}
 }}
 
 /* ══════════════════════════════════════════════════════════
+   FIX 1 — TOGGLE BUTTON — always visible in both themes
+══════════════════════════════════════════════════════════ */
+/* Track (off state) */
+div[data-testid="stToggle"] > label > div:first-child {{
+  background: {toggle_track} !important;
+  border: 1.5px solid {border_hover} !important;
+  border-radius: 99px !important;
+  transition:
+    background    0.3s ease,
+    border-color  0.3s ease,
+    box-shadow    0.3s ease !important;
+}}
+/* Track (on state) */
+div[data-testid="stToggle"] > label > input:checked + div {{
+  background: linear-gradient(135deg, {btn_from}, {btn_to}) !important;
+  border-color: {accent} !important;
+  box-shadow: 0 0 14px {accent_glow} !important;
+}}
+/* Knob (off state) */
+div[data-testid="stToggle"] > label > div:first-child > div {{
+  background: {toggle_knob} !important;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.40) !important;
+  transition:
+    transform   0.25s cubic-bezier(.34,1.56,.64,1),
+    background  0.3s ease !important;
+}}
+/* Knob (on state) */
+div[data-testid="stToggle"] > label > input:checked + div > div {{
+  background: #ffffff !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.35) !important;
+}}
+/* Label text */
+div[data-testid="stToggle"] label span {{
+  color: {text_secondary} !important;
+  font-size: 0.82rem !important;
+  font-family: 'Outfit', sans-serif !important;
+  transition: color 0.3s ease !important;
+}}
+
+/* ══════════════════════════════════════════════════════════
    TYPOGRAPHY
 ══════════════════════════════════════════════════════════ */
 h1, h2, h3, h4 {{
@@ -304,7 +350,7 @@ p, li, span {{
 }}
 
 /* ══════════════════════════════════════════════════════════
-   GLASS SYSTEM  (reusable classes)
+   GLASS SYSTEM
 ══════════════════════════════════════════════════════════ */
 .glass {{
   background: var(--glass);
@@ -315,9 +361,9 @@ p, li, span {{
   position: relative;
   overflow: hidden;
   transition:
-    transform       0.3s cubic-bezier(.34,1.56,.64,1),
-    border-color    0.3s ease,
-    box-shadow      0.3s ease;
+    transform     0.3s cubic-bezier(.34,1.56,.64,1),
+    border-color  0.3s ease,
+    box-shadow    0.3s ease;
 }}
 .glass::before {{
   content: '';
@@ -338,14 +384,13 @@ p, li, span {{
 }}
 .glass:hover {{ border-color: var(--border-hover); }}
 .glass:hover::after {{ opacity: 0.6; }}
-
 .glass-lift:hover {{
   transform: translateY(-5px) scale(1.008);
   box-shadow: 0 18px 52px var(--accent-glow), 0 4px 16px rgba(0,0,0,0.15);
 }}
 
 /* ══════════════════════════════════════════════════════════
-   STREAMLIT METRIC CARDS  (override)
+   METRIC CARDS
 ══════════════════════════════════════════════════════════ */
 div[data-testid="metric-container"] {{
   background: {bg_glass} !important;
@@ -384,7 +429,6 @@ div[data-testid="metric-container"]:hover {{
   box-shadow: 0 14px 40px {accent_glow}, 0 4px 16px rgba(0,0,0,0.12) !important;
 }}
 div[data-testid="metric-container"]:hover::after {{ opacity: 1; }}
-
 div[data-testid="metric-container"] label {{
   color: {text_muted} !important;
   font-size: 0.70rem !important;
@@ -412,9 +456,9 @@ div[data-testid="stFileUploader"] {{
   border-radius: var(--radius-lg) !important;
   padding: 1.8rem 1.5rem !important;
   transition:
-    border-color 0.25s ease,
-    box-shadow   0.25s ease,
-    background   0.25s ease !important;
+    border-color  0.25s ease,
+    box-shadow    0.25s ease,
+    background    0.25s ease !important;
   position: relative;
 }}
 div[data-testid="stFileUploader"]:hover {{
@@ -538,8 +582,24 @@ div[data-testid="stAlert"] {{
 }}
 
 /* ══════════════════════════════════════════════════════════
-   FORMS (login box)
+   FIX 2 — LOGIN FORM — remove default Streamlit text
 ══════════════════════════════════════════════════════════ */
+div[data-testid="stForm"] > div:first-child > div:first-child p,
+div[data-testid="stForm"] > div > div > div > p,
+div[data-testid="stForm"] h2,
+div[data-testid="stForm"] h3 {{
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}}
+div[data-testid="stForm"] > div > div[data-testid="stMarkdownContainer"] {{
+  display: none !important;
+}}
+
+/* Login form glass panel */
 div[data-testid="stForm"] {{
   background: {login_bg} !important;
   backdrop-filter: blur(32px) saturate(1.8) !important;
@@ -548,7 +608,7 @@ div[data-testid="stForm"] {{
   border-radius: var(--radius-xl) !important;
   padding: 2.2rem 2rem !important;
   box-shadow:
-    0 32px 80px rgba(0,0,0,0.3),
+    0 32px 80px rgba(0,0,0,0.30),
     0 8px 32px {accent_glow_sm},
     inset 0 1px 0 {shine} !important;
   animation: login-float 0.7s cubic-bezier(.22,1,.36,1) both;
@@ -604,16 +664,12 @@ div[data-testid="stRadio"] label:hover {{
   to   {{ opacity: 1; transform: translateX(0);     filter: blur(0);   }}
 }}
 @keyframes float-up-down {{
-  0%, 100% {{ transform: translateY(0px);   }}
+  0%, 100% {{ transform: translateY(0px);  }}
   50%       {{ transform: translateY(-8px); }}
 }}
 @keyframes glow-pulse {{
   0%, 100% {{ opacity: 0.6; }}
   50%       {{ opacity: 1.0; }}
-}}
-@keyframes spin-slow {{
-  from {{ transform: rotate(0deg);   }}
-  to   {{ transform: rotate(360deg); }}
 }}
 @keyframes badge-in {{
   from {{ opacity: 0; transform: translateY(-10px) scale(0.9); }}
@@ -624,6 +680,32 @@ div[data-testid="stRadio"] label:hover {{
 .d2 {{ animation-delay: 0.18s; }}
 .d3 {{ animation-delay: 0.28s; }}
 .d4 {{ animation-delay: 0.38s; }}
+
+/* ══════════════════════════════════════════════════════════
+   FIX 3 — PAGE TRANSITION — smooth post-login content reveal
+══════════════════════════════════════════════════════════ */
+section[data-testid="stMain"] {{
+  animation: page-enter 0.55s cubic-bezier(.22,1,.36,1) both !important;
+}}
+@keyframes page-enter {{
+  from {{
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(3px);
+  }}
+  to {{
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }}
+}}
+section[data-testid="stSidebar"] {{
+  animation: sidebar-enter 0.45s cubic-bezier(.22,1,.36,1) 0.05s both !important;
+}}
+@keyframes sidebar-enter {{
+  from {{ opacity: 0; transform: translateX(-10px); }}
+  to   {{ opacity: 1; transform: translateX(0); }}
+}}
 
 /* ══════════════════════════════════════════════════════════
    HERO SECTION
@@ -1043,7 +1125,7 @@ def render_sidebar(name: str, authenticator) -> str:
         st.markdown('<div class="sb-tag">Customer Intelligence Platform</div>', unsafe_allow_html=True)
         st.markdown('<div class="sb-hr"></div>', unsafe_allow_html=True)
 
-        # Theme toggle
+        # Theme toggle — Fix 1 ensures it is always visible
         col_a, col_b = st.columns([3, 1])
         with col_a:
             lbl = "🌙 Dark mode" if is_dark() else "☀️ Light mode"
@@ -1088,6 +1170,7 @@ def render_sidebar(name: str, authenticator) -> str:
 
 def page_home(name: str) -> None:
     first = name.split()[0] if name else "there"
+    accent_name = '#38bdf8' if is_dark() else '#0284c7'
 
     st.markdown(f"""
     <div class="hero-wrap">
@@ -1100,7 +1183,8 @@ def page_home(name: str) -> None:
       </div>
       <div class="hero-title">Predict Churn.<br>Retain Revenue.</div>
       <div class="hero-sub">
-        Welcome back, <strong style="-webkit-text-fill-color:{('#38bdf8' if is_dark() else '#0284c7')}">{first}</strong> —
+        Welcome back,
+        <strong style="-webkit-text-fill-color:{accent_name}">{first}</strong> —
         ChurnIQ transforms raw customer data into precision risk intelligence in seconds.
       </div>
     </div>
@@ -1135,7 +1219,6 @@ def page_home(name: str) -> None:
 # ─────────────────────────────────────────────────────────────
 
 def page_upload(username: str) -> None:
-    # ── Paywall ──
     if username not in PRO_USERS:
         st.markdown("""
         <div class="pw-card">
@@ -1158,7 +1241,9 @@ def page_upload(username: str) -> None:
       <h2 style="margin-bottom:0.3rem">📂 Upload Customer Data</h2>
       <p style="margin-top:0;font-size:0.92rem">
         Upload the <strong>original IBM Telco Customer Churn</strong> CSV.
-        Must include a <code style="background:rgba(56,189,248,0.1);padding:0.1rem 0.4rem;border-radius:4px">Churn Value</code> column.
+        Must include a
+        <code style="background:rgba(56,189,248,0.1);padding:0.1rem 0.4rem;border-radius:4px">Churn Value</code>
+        column.
       </p>
     </div>
     """, unsafe_allow_html=True)
@@ -1238,7 +1323,6 @@ def page_results() -> None:
     )
     revenue_at_risk = high_risk_df[rev_col].sum() if rev_col else None
 
-    # Metrics
     sec_header("Summary Metrics")
     c1, c2, c3, c4 = st.columns(4, gap="medium")
     c1.metric("Total Customers",  f"{total_customers:,}")
@@ -1250,7 +1334,6 @@ def page_results() -> None:
         help="Sum of Monthly Charges for High Risk customers." if rev_col else "Monthly Charges column not found.",
     )
 
-    # Distribution chart
     sec_header("Risk Distribution")
     dist = (
         result_df["Risk Segment"]
@@ -1261,7 +1344,6 @@ def page_results() -> None:
     dist.columns = ["Risk Segment", "Count"]
     st.bar_chart(dist.set_index("Risk Segment"), color="#0ea5e9", use_container_width=True)
 
-    # Preview table
     sec_header("Predictions Preview — first 20 rows")
     preferred_cols = [
         "CustomerID", "Gender", "Senior Citizen",
@@ -1274,7 +1356,6 @@ def page_results() -> None:
         use_container_width=True,
     )
 
-    # Export
     sec_header("Export")
     csv_bytes = result_df.to_csv(index=False).encode("utf-8")
     st.download_button(
@@ -1286,7 +1367,7 @@ def page_results() -> None:
 
 
 # ─────────────────────────────────────────────────────────────
-# LOGIN BRANDING
+# LOGIN BRANDING  (Fix 2 — renders ABOVE form, no default text)
 # ─────────────────────────────────────────────────────────────
 
 def _render_login_branding() -> None:
@@ -1300,12 +1381,16 @@ def _render_login_branding() -> None:
     <div class="login-brand">
       <div class="login-logo">⚡ ChurnIQ</div>
       <div class="login-sub" style="color:{sub}">Customer Intelligence Platform</div>
-      <div class="login-hint" style="color:{hint}">ML-powered churn prediction &nbsp;·&nbsp; Sign in to continue</div>
+      <div class="login-hint" style="color:{hint}">
+        ML-powered churn prediction &nbsp;·&nbsp; Sign in to continue
+      </div>
     </div>
     <div class="login-divider">
-      <span class="login-divider-line" style="background:linear-gradient(90deg,transparent,{sep},transparent)"></span>
+      <span class="login-divider-line"
+            style="background:linear-gradient(90deg,transparent,{sep},transparent)"></span>
       <span class="login-divider-text" style="color:{hint}">Secure Login</span>
-      <span class="login-divider-line" style="background:linear-gradient(90deg,{sep},transparent)"></span>
+      <span class="login-divider-line"
+            style="background:linear-gradient(90deg,{sep},transparent)"></span>
     </div>
     """, unsafe_allow_html=True)
 
@@ -1315,6 +1400,7 @@ def _render_login_branding() -> None:
 # ─────────────────────────────────────────────────────────────
 
 def main() -> None:
+    # CSS always loads first — Fix 3 page-enter animation is defined here
     inject_css()
 
     authenticator = stauth.Authenticate(
@@ -1325,16 +1411,16 @@ def main() -> None:
     )
 
     auth_status = st.session_state.get("authentication_status")
-    name        = st.session_state.get("name", "")
-    username    = st.session_state.get("username", "")
 
-    # ── Not yet logged in — show branding ABOVE the login form ──
+    # ── Pre-auth: show branding above the form (Fix 2) ──
     if auth_status is not True:
+        # Reset the post-login flag so transition fires fresh on next login
+        st.session_state["_post_login_rendered"] = False
         _render_login_branding()
 
     authenticator.login(location="main")
 
-    # Re-read after login widget renders
+    # Re-read session after the login widget has rendered
     auth_status = st.session_state.get("authentication_status")
     name        = st.session_state.get("name", "")
     username    = st.session_state.get("username", "")
@@ -1346,7 +1432,29 @@ def main() -> None:
     if auth_status is None:
         return
 
-    # ── Authenticated ──
+    # ── Authenticated ──────────────────────────────────────
+    # Fix 3: fire a lightweight JS repaint nudge only on the very
+    # first render after login to guarantee the page-enter animation
+    # triggers cleanly without a stale cached frame.
+    if not st.session_state.get("_post_login_rendered"):
+        st.session_state["_post_login_rendered"] = True
+        st.markdown(
+            """
+            <script>
+              (function() {
+                var main = document.querySelector('section[data-testid="stMain"]');
+                if (main) {
+                  main.style.animation = 'none';
+                  requestAnimationFrame(function() {
+                    main.style.removeProperty('animation');
+                  });
+                }
+              })();
+            </script>
+            """,
+            unsafe_allow_html=True,
+        )
+
     page = render_sidebar(name, authenticator)
 
     if page == "Home":
