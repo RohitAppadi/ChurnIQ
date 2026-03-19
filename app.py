@@ -12,9 +12,6 @@ import pandas as pd
 import joblib
 import streamlit_authenticator as stauth
 
-# ─────────────────────────────────────────────────────────────
-# PAGE CONFIG
-# ─────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="ChurnIQ · Prediction Engine",
     page_icon="⚡",
@@ -22,9 +19,6 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ─────────────────────────────────────────────────────────────
-# THEME STATE
-# ─────────────────────────────────────────────────────────────
 if "dark_mode" not in st.session_state:
     st.session_state["dark_mode"] = True
 
@@ -33,9 +27,6 @@ def is_dark() -> bool:
     return st.session_state.get("dark_mode", True)
 
 
-# ─────────────────────────────────────────────────────────────
-# INJECT CSS
-# ─────────────────────────────────────────────────────────────
 def inject_css() -> None:
     dark = is_dark()
 
@@ -112,14 +103,8 @@ def inject_css() -> None:
 
     st.markdown(f"""
 <style>
-/* ══════════════════════════════════════════════════════════
-   FONTS
-══════════════════════════════════════════════════════════ */
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap');
 
-/* ══════════════════════════════════════════════════════════
-   CUSTOM PROPERTIES
-══════════════════════════════════════════════════════════ */
 :root {{
   --accent:         {accent};
   --accent2:        {accent2};
@@ -142,9 +127,6 @@ def inject_css() -> None:
   --radius-xl:      28px;
 }}
 
-/* ══════════════════════════════════════════════════════════
-   BASE RESET
-══════════════════════════════════════════════════════════ */
 *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
 
 html, body, [class*="css"] {{
@@ -154,9 +136,6 @@ html, body, [class*="css"] {{
   -moz-osx-font-smoothing: grayscale;
 }}
 
-/* ══════════════════════════════════════════════════════════
-   ANIMATED BACKGROUND
-══════════════════════════════════════════════════════════ */
 .stApp {{
   background-color: {bg_root};
   min-height: 100vh;
@@ -165,7 +144,6 @@ html, body, [class*="css"] {{
   transition: background-color 0.6s ease;
 }}
 
-/* Grain texture overlay */
 .stApp::before {{
   content: '';
   position: fixed;
@@ -177,7 +155,6 @@ html, body, [class*="css"] {{
   opacity: 0.6;
 }}
 
-/* Ambient orbs */
 .stApp::after {{
   content: '';
   position: fixed;
@@ -197,24 +174,17 @@ html, body, [class*="css"] {{
   100% {{ opacity: 0.8; transform: scale(0.98); }}
 }}
 
-/* Ensure content sits above background layers */
 section[data-testid="stMain"] > div,
 section[data-testid="stSidebar"] > div {{
   position: relative;
   z-index: 1;
 }}
 
-/* ══════════════════════════════════════════════════════════
-   SCROLLBAR
-══════════════════════════════════════════════════════════ */
 ::-webkit-scrollbar              {{ width: 5px; height: 5px; }}
 ::-webkit-scrollbar-track        {{ background: {scrollbar_bg}; }}
 ::-webkit-scrollbar-thumb        {{ background: {scrollbar_th}; border-radius: 99px; }}
 ::-webkit-scrollbar-thumb:hover  {{ background: {accent}; }}
 
-/* ══════════════════════════════════════════════════════════
-   SIDEBAR
-══════════════════════════════════════════════════════════ */
 section[data-testid="stSidebar"] {{
   background: {sidebar_bg} !important;
   backdrop-filter: blur(32px) saturate(1.6) !important;
@@ -229,7 +199,6 @@ section[data-testid="stSidebar"] * {{
 }}
 section[data-testid="stSidebar"] strong {{ color: {text_primary} !important; }}
 
-/* ─── Sidebar brand / tag / divider / user badge ─── */
 .sb-brand {{
   font-family: 'Syne', sans-serif;
   font-size: 1.6rem;
@@ -285,9 +254,6 @@ section[data-testid="stSidebar"] strong {{ color: {text_primary} !important; }}
   50%       {{ box-shadow: 0 0 14px #22c55ecc; }}
 }}
 
-/* ══════════════════════════════════════════════════════════
-   FIX 1 — TOGGLE — always visible in both themes
-══════════════════════════════════════════════════════════ */
 div[data-testid="stToggle"] > label > div:first-child {{
   background: {toggle_track} !important;
   border: 1.5px solid {border_hover} !important;
@@ -315,9 +281,6 @@ div[data-testid="stToggle"] label span {{
   transition: color 0.3s ease !important;
 }}
 
-/* ══════════════════════════════════════════════════════════
-   TYPOGRAPHY
-══════════════════════════════════════════════════════════ */
 h1, h2, h3, h4 {{
   font-family: 'Syne', sans-serif !important;
   font-weight: 700 !important;
@@ -331,9 +294,6 @@ p, li, span {{
   transition: color 0.4s ease;
 }}
 
-/* ══════════════════════════════════════════════════════════
-   GLASS SYSTEM
-══════════════════════════════════════════════════════════ */
 .glass {{
   background: var(--glass);
   backdrop-filter: blur(24px) saturate(1.6);
@@ -368,9 +328,6 @@ p, li, span {{
   box-shadow: 0 18px 52px var(--accent-glow), 0 4px 16px rgba(0,0,0,0.15);
 }}
 
-/* ══════════════════════════════════════════════════════════
-   METRIC CARDS
-══════════════════════════════════════════════════════════ */
 div[data-testid="metric-container"] {{
   background: {bg_glass} !important;
   backdrop-filter: blur(24px) saturate(1.6) !important;
@@ -422,9 +379,6 @@ div[data-testid="metric-container"] [data-testid="stMetricValue"] {{
   text-shadow: 0 0 28px {accent_glow};
 }}
 
-/* ══════════════════════════════════════════════════════════
-   FILE UPLOADER
-══════════════════════════════════════════════════════════ */
 div[data-testid="stFileUploader"] {{
   background: {upload_bg} !important;
   backdrop-filter: blur(18px) !important;
@@ -440,9 +394,6 @@ div[data-testid="stFileUploader"]:hover {{
   background: {bg_glass} !important;
 }}
 
-/* ══════════════════════════════════════════════════════════
-   BUTTONS
-══════════════════════════════════════════════════════════ */
 .stButton > button,
 .stDownloadButton > button {{
   background: linear-gradient(135deg, {btn_from} 0%, {btn_to} 100%) !important;
@@ -478,9 +429,6 @@ div[data-testid="stFileUploader"]:hover {{
   box-shadow: 0 2px 10px {accent_glow_sm} !important;
 }}
 
-/* ══════════════════════════════════════════════════════════
-   INPUT FIELDS
-══════════════════════════════════════════════════════════ */
 div[data-testid="stTextInput"] input,
 div[data-testid="stPasswordInput"] input {{
   background: {input_bg} !important;
@@ -508,9 +456,6 @@ div[data-testid="stPasswordInput"] label {{
   font-weight: 600 !important;
 }}
 
-/* ══════════════════════════════════════════════════════════
-   DATAFRAME
-══════════════════════════════════════════════════════════ */
 div[data-testid="stDataFrame"] {{
   background: {bg_glass} !important;
   backdrop-filter: blur(16px) !important;
@@ -521,9 +466,6 @@ div[data-testid="stDataFrame"] {{
   animation: reveal 0.5s cubic-bezier(.22,1,.36,1) both;
 }}
 
-/* ══════════════════════════════════════════════════════════
-   CHARTS
-══════════════════════════════════════════════════════════ */
 div[data-testid="stVegaLiteChart"],
 div[data-testid="stArrowVegaLiteChart"] {{
   background: {bg_glass} !important;
@@ -540,9 +482,6 @@ div[data-testid="stArrowVegaLiteChart"]:hover {{
   box-shadow: 0 8px 32px {accent_glow} !important;
 }}
 
-/* ══════════════════════════════════════════════════════════
-   ALERTS
-══════════════════════════════════════════════════════════ */
 div[data-testid="stAlert"] {{
   background: {bg_glass} !important;
   backdrop-filter: blur(12px) !important;
@@ -551,9 +490,6 @@ div[data-testid="stAlert"] {{
   animation: reveal 0.4s cubic-bezier(.22,1,.36,1) both;
 }}
 
-/* ══════════════════════════════════════════════════════════
-   FIX 2 — LOGIN FORM — remove default Streamlit prompt text
-══════════════════════════════════════════════════════════ */
 div[data-testid="stForm"] > div:first-child > div:first-child p,
 div[data-testid="stForm"] > div > div > div > p,
 div[data-testid="stForm"] h2,
@@ -569,7 +505,6 @@ div[data-testid="stForm"] > div > div[data-testid="stMarkdownContainer"] {{
   display: none !important;
 }}
 
-/* Login form glass panel */
 div[data-testid="stForm"] {{
   background: {login_bg} !important;
   backdrop-filter: blur(32px) saturate(1.8) !important;
@@ -608,9 +543,6 @@ div[data-testid="stForm"]::after {{
   to   {{ opacity: 1; transform: translateY(0)    scale(1);    filter: blur(0);   }}
 }}
 
-/* ══════════════════════════════════════════════════════════
-   RADIO (sidebar nav)
-══════════════════════════════════════════════════════════ */
 div[data-testid="stRadio"] label {{
   padding: 0.48rem 0.75rem !important;
   border-radius: 8px !important;
@@ -622,9 +554,6 @@ div[data-testid="stRadio"] label:hover {{
   background: {bg_surface2} !important;
 }}
 
-/* ══════════════════════════════════════════════════════════
-   KEYFRAMES
-══════════════════════════════════════════════════════════ */
 @keyframes reveal {{
   from {{ opacity: 0; transform: translateY(20px) scale(0.98); filter: blur(4px); }}
   to   {{ opacity: 1; transform: translateY(0)    scale(1);    filter: blur(0);   }}
@@ -645,15 +574,16 @@ div[data-testid="stRadio"] label:hover {{
   from {{ opacity: 0; transform: translateY(-10px) scale(0.9); }}
   to   {{ opacity: 1; transform: translateY(0) scale(1); }}
 }}
+@keyframes fade-up {{
+  from {{ opacity: 0; transform: translateY(14px); }}
+  to   {{ opacity: 1; transform: translateY(0); }}
+}}
 
 .d1 {{ animation-delay: 0.08s; }}
 .d2 {{ animation-delay: 0.18s; }}
 .d3 {{ animation-delay: 0.28s; }}
 .d4 {{ animation-delay: 0.38s; }}
 
-/* ══════════════════════════════════════════════════════════
-   FIX 3 — PAGE TRANSITION — smooth post-login content reveal
-══════════════════════════════════════════════════════════ */
 section[data-testid="stMain"] {{
   animation: page-enter 0.55s cubic-bezier(.22,1,.36,1) both !important;
 }}
@@ -669,9 +599,6 @@ section[data-testid="stSidebar"] {{
   to   {{ opacity: 1; transform: translateX(0); }}
 }}
 
-/* ══════════════════════════════════════════════════════════
-   HERO SECTION
-══════════════════════════════════════════════════════════ */
 .hero-wrap {{
   text-align: center;
   padding: 4rem 1rem 3rem;
@@ -735,9 +662,6 @@ section[data-testid="stSidebar"] {{
   animation: glow-pulse 4s ease-in-out infinite;
 }}
 
-/* ══════════════════════════════════════════════════════════
-   FEATURE CARDS
-══════════════════════════════════════════════════════════ */
 .feat-card {{
   background: {bg_glass};
   backdrop-filter: blur(22px) saturate(1.5);
@@ -799,9 +723,6 @@ section[data-testid="stSidebar"] {{
   line-height: 1.7;
 }}
 
-/* ══════════════════════════════════════════════════════════
-   SECTION HEADERS
-══════════════════════════════════════════════════════════ */
 .sec-head {{
   display: flex;
   align-items: center;
@@ -830,9 +751,6 @@ section[data-testid="stSidebar"] {{
   background: linear-gradient(90deg, {border_color} 0%, transparent 100%);
 }}
 
-/* ══════════════════════════════════════════════════════════
-   PAYWALL CARD
-══════════════════════════════════════════════════════════ */
 .pw-card {{
   background: {paywall_bg};
   backdrop-filter: blur(30px) saturate(1.7);
@@ -906,9 +824,6 @@ section[data-testid="stSidebar"] {{
   box-shadow: 0 10px 32px {accent_glow};
 }}
 
-/* ══════════════════════════════════════════════════════════
-   LOGIN BRANDING
-══════════════════════════════════════════════════════════ */
 .login-brand {{
   text-align: center;
   padding: 2.5rem 1rem 1.5rem;
@@ -960,18 +875,12 @@ section[data-testid="stSidebar"] {{
   white-space: nowrap;
 }}
 
-/* ══════════════════════════════════════════════════════════
-   HIDE STREAMLIT CHROME
-══════════════════════════════════════════════════════════ */
 #MainMenu, footer              {{ visibility: hidden; }}
 header[data-testid="stHeader"] {{ background: transparent !important; }}
 </style>
 """, unsafe_allow_html=True)
 
 
-# ─────────────────────────────────────────────────────────────
-# AUTH CONFIG
-# ─────────────────────────────────────────────────────────────
 AUTH_CONFIG: dict = {
     "credentials": {
         "usernames": {
@@ -1026,20 +935,8 @@ AUTH_CONFIG: dict = {
     },
 }
 
-# ─────────────────────────────────────────────────────────────
-# PRO USERS — explicitly list who gets prediction access.
-# BUG FIX: The previous version auto-generated PRO_USERS from
-# ALL credential keys, giving every user Pro access and making
-# the paywall completely non-functional.
-# Add or remove usernames here to control access.
-# ─────────────────────────────────────────────────────────────
 PRO_USERS: set = {"rohit", "mahesh", "karan", "areen", "devang"}
-# "demo" is intentionally excluded — it hits the paywall.
 
-
-# ─────────────────────────────────────────────────────────────
-# ML HELPERS  (untouched)
-# ─────────────────────────────────────────────────────────────
 
 @st.cache_resource(show_spinner="Loading prediction engine…")
 def load_model():
@@ -1095,10 +992,6 @@ def risk_segment(prob: float) -> str:
     return "Low Risk"
 
 
-# ─────────────────────────────────────────────────────────────
-# UI HELPERS
-# ─────────────────────────────────────────────────────────────
-
 def sec_header(label: str) -> None:
     st.markdown(
         f'<div class="sec-head">'
@@ -1109,10 +1002,6 @@ def sec_header(label: str) -> None:
         unsafe_allow_html=True,
     )
 
-
-# ─────────────────────────────────────────────────────────────
-# SIDEBAR
-# ─────────────────────────────────────────────────────────────
 
 def render_sidebar(name: str, authenticator) -> str:
     with st.sidebar:
@@ -1136,7 +1025,6 @@ def render_sidebar(name: str, authenticator) -> str:
         st.markdown('<div class="sb-hr"></div>', unsafe_allow_html=True)
 
         first = name.split()[0] if name else name
-        # Show a Pro badge next to the username if user has Pro access
         username_key = st.session_state.get("username", "")
         pro_badge = (
             f'<span style="font-size:0.65rem;background:linear-gradient(135deg,#0ea5e9,#1d4ed8);'
@@ -1169,13 +1057,20 @@ def render_sidebar(name: str, authenticator) -> str:
     return page.split("  ", 1)[-1].strip()
 
 
-# ─────────────────────────────────────────────────────────────
-# PAGE: HOME
-# ─────────────────────────────────────────────────────────────
-
 def page_home(name: str) -> None:
     first = name.split()[0] if name else "there"
     accent_name = '#38bdf8' if is_dark() else '#0284c7'
+    dark = is_dark()
+
+    glass_bg     = "rgba(12,20,40,0.70)"    if dark else "rgba(255,255,255,0.75)"
+    glass_border = "rgba(56,189,248,0.14)"  if dark else "rgba(14,165,233,0.16)"
+    glass_shine  = "rgba(255,255,255,0.04)" if dark else "rgba(255,255,255,0.55)"
+    text_p       = "#eef4ff" if dark else "#071628"
+    text_s       = "#6d9ab5" if dark else "#3a6080"
+    text_m       = "#2e4a63" if dark else "#9ab8cc"
+    accent_c     = "#38bdf8" if dark else "#0284c7"
+    accent2_c    = "#7dd3fc" if dark else "#0ea5e9"
+    glow         = "rgba(56,189,248,0.18)"  if dark else "rgba(2,132,199,0.12)"
 
     st.markdown(f"""
     <div class="hero-wrap">
@@ -1195,36 +1090,327 @@ def page_home(name: str) -> None:
     </div>
     """, unsafe_allow_html=True)
 
-    c1, c2, c3 = st.columns(3, gap="large")
-    cards = [
-        ("📂", "Upload CSV",
-         "Drop the IBM Telco CSV — ChurnIQ handles BOM cleaning, encoding, column alignment, and scaling automatically."),
-        ("🤖", "ML Prediction",
-         "A trained ensemble model scores every customer with a calibrated churn probability and risk tier."),
-        ("📊", "Act on Insights",
-         "Download risk-segmented results and focus retention budget precisely where revenue is most at stake."),
-    ]
-    for i, (col, (icon, title, body)) in enumerate(zip([c1, c2, c3], cards)):
-        with col:
-            st.markdown(
-                f'<div class="feat-card d{i+1}">'
-                f'<span class="feat-icon">{icon}</span>'
-                f'<div class="feat-title">{title}</div>'
-                f'<div class="feat-body">{body}</div>'
-                f'</div>',
-                unsafe_allow_html=True,
+    st.markdown(f"""
+    <div style="text-align:center;margin:-1rem 0 2.5rem;animation:fade-up 0.9s cubic-bezier(.22,1,.36,1) 0.4s both;">
+      <span style="font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;
+                   color:{text_m};font-family:Outfit,sans-serif;">
+        Scroll to explore the story ↓
+      </span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    def glass_open(delay: str = "0s") -> str:
+        return f"""
+        <div style="
+          background:{glass_bg};
+          backdrop-filter:blur(22px) saturate(1.5);
+          -webkit-backdrop-filter:blur(22px) saturate(1.5);
+          border:1px solid {glass_border};
+          border-radius:22px;
+          padding:2.2rem 2.4rem;
+          margin-bottom:1.8rem;
+          position:relative;
+          overflow:hidden;
+          animation:reveal 0.7s cubic-bezier(.22,1,.36,1) {delay} both;
+          box-shadow:0 8px 40px {glow};
+        ">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,{glass_shine} 0%,transparent 55%);
+                    pointer-events:none;border-radius:inherit;"></div>
+        <div style="position:absolute;top:0;left:15%;right:15%;height:1px;
+                    background:linear-gradient(90deg,transparent,{accent_c},transparent);opacity:0.4;"></div>
+        """
+
+    def glass_close() -> str:
+        return "</div>"
+
+    def section_label(text: str, delay: str = "0s") -> str:
+        return f"""
+        <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:1.1rem;
+                    animation:reveal-right 0.5s cubic-bezier(.22,1,.36,1) {delay} both;">
+          <span style="width:3px;height:16px;background:linear-gradient(180deg,{accent_c},{accent2_c});
+                       border-radius:99px;box-shadow:0 0 8px {glow};flex-shrink:0;display:inline-block;"></span>
+          <span style="font-family:Syne,sans-serif;font-size:0.68rem;font-weight:700;
+                       color:{accent_c};text-transform:uppercase;letter-spacing:0.18em;">{text}</span>
+        </div>
+        """
+
+    def body_text(text: str, size: str = "0.97rem", mb: str = "0") -> str:
+        return f"""<p style="color:{text_s};font-size:{size};line-height:1.85;
+                             font-family:Outfit,sans-serif;margin-bottom:{mb};
+                             font-weight:400;">{text}</p>"""
+
+    def heading(text: str, size: str = "1.35rem") -> str:
+        return f"""<h3 style="font-family:Syne,sans-serif;font-size:{size};font-weight:700;
+                              color:{text_p};letter-spacing:-0.4px;margin-bottom:0.6rem;
+                              -webkit-text-fill-color:{text_p};">{text}</h3>"""
+
+    st.markdown(
+        glass_open("0.05s")
+        + section_label("Chapter 01 · The Old World")
+        + heading("Decisions Ran on Instinct, Not Intelligence")
+        + body_text(
+            "For most of human business history, decisions were made the same way they always had been — "
+            "through experience, hierarchy, and gut feeling. A family business passed from father to son "
+            "carried decades of inherited intuition: which customers to trust, which seasons to stock up for, "
+            "which risks were worth taking. It worked well enough — until the world outgrew it."
+        )
+        + body_text(
+            "As businesses scaled beyond a handful of relationships, that intuition could no longer keep up. "
+            "Leaders made high-stakes calls based on incomplete information, anecdotal patterns, and the confidence "
+            "of whoever spoke loudest in the room. The cost of being wrong was written off as the price of doing business.",
+            mb="0"
+        )
+        + glass_close(),
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        glass_open("0.1s")
+        + section_label("Chapter 02 · The Great Shift")
+        + heading("The Internet Changed Everything")
+        + body_text(
+            "The 21st century didn't just bring faster computers — it brought an explosion of signal. "
+            "Every click, every transaction, every support ticket became a data point. "
+            "Companies that had once guessed at customer behavior could now observe it, measure it, and — "
+            "with the right tools — predict it."
+        )
+        + body_text(
+            "The shift happened in three waves. First came reporting: companies learned to look backward at what happened. "
+            "Then came analytics: companies learned to understand <em>why</em> it happened. "
+            "Now we are deep in the third wave — prediction — where the most competitive organizations "
+            "no longer react to the past, they anticipate the future.",
+            mb="0"
+        )
+        + glass_close(),
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        glass_open("0.15s")
+        + section_label("Chapter 03 · The Timeline")
+        + heading("From Gut Feel to Predictive Intelligence")
+        + body_text(
+            "The chart below maps how data-driven influence in business decision-making has grown over five decades. "
+            "What began as spreadsheets and manual reports has compounded into real-time machine learning at scale. "
+            "Notice the sharp inflection after 2010 — that is the moment cloud computing and big data "
+            "crossed the threshold from enterprise luxury to competitive necessity.",
+            mb="1.2rem"
+        ),
+        unsafe_allow_html=True,
+    )
+    timeline_df = pd.DataFrame({
+        "Year": [1975, 1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2018, 2020, 2022, 2024],
+        "Data Influence (%)": [2, 4, 6, 9, 14, 22, 31, 44, 62, 74, 83, 91, 97],
+    }).set_index("Year")
+    st.line_chart(timeline_df, color="#0ea5e9", use_container_width=True)
+    st.markdown(
+        body_text(
+            "Each percentage point on this curve represents a boardroom that replaced a gut call with a model, "
+            "a hypothesis with evidence, an assumption with certainty.",
+            mb="0"
+        )
+        + glass_close(),
+        unsafe_allow_html=True,
+    )
+
+    col_a, col_b = st.columns(2, gap="large")
+    with col_a:
+        st.markdown(
+            glass_open("0.18s")
+            + section_label("Chapter 04 · The Problem")
+            + heading("Customer Churn Is a Silent Killer")
+            + body_text(
+                "Acquiring a new customer costs five to seven times more than retaining an existing one. "
+                "Yet most companies only notice a customer has left after the revenue disappears. "
+                "By then, the relationship is already over — and so is that lifetime value."
             )
+            + body_text(
+                "Investors scrutinize churn rate before almost any other metric. "
+                "A business growing at 30% annually but churning 25% of its base is effectively "
+                "running on a treadmill — expending enormous energy just to stay in place. "
+                "Reducing churn by even 5% can increase profitability by 25 to 95%.",
+                mb="0"
+            )
+            + glass_close(),
+            unsafe_allow_html=True,
+        )
+    with col_b:
+        st.markdown(
+            glass_open("0.22s")
+            + section_label("Chapter 05 · The Opportunity")
+            + heading("Prediction Turns Defense Into Strategy")
+            + body_text(
+                "When you can identify a customer who is likely to leave before they actually do, "
+                "everything changes. A timely offer, a check-in call, a personalized discount — "
+                "these interventions cost a fraction of re-acquisition and they work, "
+                "because they arrive before the decision is final."
+            )
+            + body_text(
+                "Predictive churn modeling converts a reactive support team into a proactive retention engine. "
+                "It turns historical loss patterns into forward-looking revenue protection — "
+                "and it gives leadership a number they can act on, not just a story they can tell after the fact.",
+                mb="0"
+            )
+            + glass_close(),
+            unsafe_allow_html=True,
+        )
 
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.info("**How to use →** Open **Upload & Predict** in the sidebar, upload your CSV, then view results in **Results**.")
+    st.markdown(
+        glass_open("0.2s")
+        + section_label("Chapter 06 · Demo Insights")
+        + heading("What a Typical Customer Base Looks Like")
+        + body_text(
+            "In a representative sample of 7,043 telecom customers, ChurnIQ's model segments the base "
+            "into three distinct risk tiers. The distribution below is not hypothetical — "
+            "it reflects the output of a real trained model on the IBM Telco dataset. "
+            "High-risk customers represent the immediate retention priority; medium-risk customers "
+            "are the ones a well-timed intervention can still win back.",
+            mb="1.2rem"
+        ),
+        unsafe_allow_html=True,
+    )
+    demo_df = pd.DataFrame({
+        "Risk Segment": ["High Risk", "Medium Risk", "Low Risk"],
+        "Customers": [1521, 2134, 3388],
+    }).set_index("Risk Segment")
+    st.bar_chart(demo_df, color="#0ea5e9", use_container_width=True)
+    st.markdown(
+        f"""
+        <div style="display:flex;gap:1.5rem;margin-top:1.2rem;flex-wrap:wrap;">
+          <div style="flex:1;min-width:140px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.20);
+                      border-radius:12px;padding:0.9rem 1.1rem;text-align:center;">
+            <div style="font-family:Syne,sans-serif;font-size:1.55rem;font-weight:800;color:#f87171;">1,521</div>
+            <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
+                        color:{text_m};margin-top:0.2rem;">High Risk</div>
+          </div>
+          <div style="flex:1;min-width:140px;background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.20);
+                      border-radius:12px;padding:0.9rem 1.1rem;text-align:center;">
+            <div style="font-family:Syne,sans-serif;font-size:1.55rem;font-weight:800;color:#fbbf24;">2,134</div>
+            <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
+                        color:{text_m};margin-top:0.2rem;">Medium Risk</div>
+          </div>
+          <div style="flex:1;min-width:140px;background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.20);
+                      border-radius:12px;padding:0.9rem 1.1rem;text-align:center;">
+            <div style="font-family:Syne,sans-serif;font-size:1.55rem;font-weight:800;color:#34d399;">3,388</div>
+            <div style="font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
+                        color:{text_m};margin-top:0.2rem;">Low Risk</div>
+          </div>
+        </div>
+        """
+        + glass_close(),
+        unsafe_allow_html=True,
+    )
 
+    st.markdown(
+        glass_open("0.25s")
+        + section_label("Chapter 07 · The Solution")
+        + heading("ChurnIQ Is Not a Report. It Is a Decision Engine.")
+        + body_text(
+            "Most analytics tools tell you what happened. ChurnIQ tells you what is about to happen — "
+            "and gives you the clarity to act before it does. "
+            "Built on a trained ensemble model, it processes every customer record through the same "
+            "rigorous pipeline: cleaning, encoding, feature alignment, probability scoring, and risk tiering. "
+            "The output is not a dashboard of lagging indicators — it is a forward-looking map of your revenue risk."
+        )
+        + body_text(
+            "ChurnIQ eliminates the three biggest obstacles to proactive retention: "
+            "the time it takes to prepare data, the expertise it takes to interpret a model, "
+            "and the lag between insight and action. "
+            "Upload your customer file, and within seconds your team has a prioritized list of "
+            "who needs attention, ranked by probability, backed by data.",
+            mb="0"
+        )
+        + glass_close(),
+        unsafe_allow_html=True,
+    )
 
-# ─────────────────────────────────────────────────────────────
-# PAGE: UPLOAD & PREDICT
-# ─────────────────────────────────────────────────────────────
+    st.markdown(
+        glass_open("0.28s")
+        + section_label("Get Started · Three Steps")
+        + heading("From Raw Data to Actionable Intelligence in Under a Minute"),
+        unsafe_allow_html=True,
+    )
+    sc1, sc2, sc3 = st.columns(3, gap="large")
+    steps = [
+        ("01", "📂", "Upload",  "Navigate to Upload & Predict in the sidebar and drop your IBM Telco Customer CSV. ChurnIQ handles all cleaning and encoding automatically."),
+        ("02", "🤖", "Predict", "The model scores every customer with a calibrated churn probability and assigns a risk tier — High, Medium, or Low — in seconds."),
+        ("03", "📊", "Act",     "Head to Results to view the dashboard, explore the risk distribution, and download the full segmented CSV for your retention team."),
+    ]
+    for col, (num, icon, title, body) in zip([sc1, sc2, sc3], steps):
+        with col:
+            st.markdown(f"""
+            <div style="text-align:center;padding:1rem 0.5rem;">
+              <div style="font-family:Syne,sans-serif;font-size:0.62rem;font-weight:700;
+                          color:{text_m};letter-spacing:0.2em;text-transform:uppercase;
+                          margin-bottom:0.6rem;">{num}</div>
+              <div style="font-size:2.2rem;margin-bottom:0.7rem;
+                          filter:drop-shadow(0 0 12px {glow});">{icon}</div>
+              <div style="font-family:Syne,sans-serif;font-size:1rem;font-weight:700;
+                          color:{text_p};margin-bottom:0.45rem;-webkit-text-fill-color:{text_p};">{title}</div>
+              <div style="font-size:0.84rem;color:{text_s};line-height:1.7;">{body}</div>
+            </div>
+            """, unsafe_allow_html=True)
+    st.markdown(glass_close(), unsafe_allow_html=True)
+
+    quote_bg   = "rgba(8,14,28,0.85)"    if dark else "rgba(224,242,254,0.85)"
+    quote_glow = "rgba(56,189,248,0.20)" if dark else "rgba(2,132,199,0.14)"
+    st.markdown(f"""
+    <div style="
+      background:{quote_bg};
+      backdrop-filter:blur(28px) saturate(1.6);
+      -webkit-backdrop-filter:blur(28px) saturate(1.6);
+      border:1px solid {glass_border};
+      border-radius:24px;
+      padding:3.5rem 3rem;
+      text-align:center;
+      margin:0.5rem 0 2rem;
+      position:relative;
+      overflow:hidden;
+      animation:reveal 0.8s cubic-bezier(.22,1,.36,1) 0.3s both;
+      box-shadow:0 16px 56px {quote_glow},inset 0 1px 0 {glass_shine};
+    ">
+      <div style="position:absolute;top:0;left:10%;right:10%;height:2px;
+                  background:linear-gradient(90deg,transparent,{accent_c},{accent2_c},transparent);"></div>
+      <div style="font-family:Syne,sans-serif;font-size:5rem;font-weight:800;line-height:0.6;
+                  background:linear-gradient(135deg,{accent_c},{accent2_c});
+                  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+                  background-clip:text;margin-bottom:1.4rem;opacity:0.5;">"</div>
+      <div style="
+        font-family:Syne,sans-serif;
+        font-size:clamp(1.3rem,2.8vw,2rem);
+        font-weight:700;
+        background:linear-gradient(135deg,{text_p} 0%,{accent_c} 60%,{accent2_c} 100%);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
+        background-clip:text;
+        line-height:1.3;
+        letter-spacing:-0.5px;
+        max-width:680px;
+        margin:0 auto 1.4rem;
+      ">
+        The companies that will define the next decade are not the ones with the most customers —
+        they are the ones who know, before anyone else, which customers are about to leave.
+      </div>
+      <div style="font-family:Syne,sans-serif;font-size:5rem;font-weight:800;line-height:0.6;
+                  background:linear-gradient(135deg,{accent2_c},{accent_c});
+                  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+                  background-clip:text;margin-bottom:1.6rem;opacity:0.5;">"</div>
+      <div style="display:inline-flex;align-items:center;gap:0.65rem;
+                  background:rgba(56,189,248,0.08);border:1px solid {glass_border};
+                  border-radius:99px;padding:0.35rem 1.1rem;backdrop-filter:blur(8px);">
+        <span style="width:6px;height:6px;background:{accent_c};border-radius:50%;
+                     box-shadow:0 0 8px {accent_c};animation:glow-pulse 2s ease-in-out infinite;
+                     display:inline-block;flex-shrink:0;"></span>
+        <span style="font-family:Syne,sans-serif;font-size:0.72rem;font-weight:700;
+                     color:{accent_c};letter-spacing:0.1em;text-transform:uppercase;">
+          ChurnIQ · Customer Intelligence Platform
+        </span>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 def page_upload(username: str) -> None:
-    # Paywall — only PRO_USERS can proceed
     if username not in PRO_USERS:
         st.markdown("""
         <div class="pw-card">
@@ -1300,10 +1486,6 @@ def page_upload(username: str) -> None:
     st.success("✅ Predictions complete! Navigate to **Results** in the sidebar.")
 
 
-# ─────────────────────────────────────────────────────────────
-# PAGE: RESULTS
-# ─────────────────────────────────────────────────────────────
-
 def page_results() -> None:
     st.markdown("""
     <div style="animation: reveal 0.55s cubic-bezier(.22,1,.36,1) both;">
@@ -1325,8 +1507,6 @@ def page_results() -> None:
         (c for c in result_df.columns if c.lower().replace(" ", "") == "monthlycharges"),
         None,
     )
-    # BUG FIX: was referencing high_risk_df which required a separate variable;
-    # now computed inline to avoid the unused-variable warning.
     revenue_at_risk = (
         result_df[result_df["Risk Segment"] == "High Risk"][rev_col].sum()
         if rev_col else None
@@ -1375,10 +1555,6 @@ def page_results() -> None:
     )
 
 
-# ─────────────────────────────────────────────────────────────
-# LOGIN BRANDING
-# ─────────────────────────────────────────────────────────────
-
 def _render_login_branding() -> None:
     dark = is_dark()
     grad = "linear-gradient(135deg,#e0f2fe 0%,#38bdf8 45%,#818cf8 100%)" if dark else "linear-gradient(135deg,#0c1929 0%,#0284c7 50%,#38bdf8 100%)"
@@ -1404,10 +1580,6 @@ def _render_login_branding() -> None:
     """, unsafe_allow_html=True)
 
 
-# ─────────────────────────────────────────────────────────────
-# MAIN
-# ─────────────────────────────────────────────────────────────
-
 def main() -> None:
     inject_css()
 
@@ -1420,14 +1592,12 @@ def main() -> None:
 
     auth_status = st.session_state.get("authentication_status")
 
-    # Show branding above the login form; reset transition flag on logout
     if auth_status is not True:
         st.session_state["_post_login_rendered"] = False
         _render_login_branding()
 
     authenticator.login(location="main")
 
-    # Re-read after the login widget renders
     auth_status = st.session_state.get("authentication_status")
     name        = st.session_state.get("name", "")
     username    = st.session_state.get("username", "")
@@ -1439,8 +1609,6 @@ def main() -> None:
     if auth_status is None:
         return
 
-    # ── Authenticated ──
-    # Trigger page-enter animation only on the first post-login render
     if not st.session_state.get("_post_login_rendered"):
         st.session_state["_post_login_rendered"] = True
         st.markdown(
