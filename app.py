@@ -1016,7 +1016,7 @@ header[data-testid="stHeader"] {{ background: transparent !important; }}
 AUTH_CONFIG: dict = {
     "credentials": {
         "usernames": {
-            "Rohit": {
+            "rohit": {
                 "first_name": "Rohit",
                 "last_name": "Appadi",
                 "email": "rohit@churniq.ai",
@@ -1030,28 +1030,28 @@ AUTH_CONFIG: dict = {
                 "password": "demo456",
                 "logged_in": False,
             },
-            "Mahesh": {
+            "mahesh": {
                 "first_name": "Mahesh",
                 "last_name": "Panda",
                 "email": "mahesh@churniq.ai",
                 "password": "mahesh123",
                 "logged_in": False,
             },
-            "Karan": {
+            "karan": {
                 "first_name": "Karan",
                 "last_name": "Pandit",
                 "email": "karan@churniq.ai",
                 "password": "karan123",
                 "logged_in": False,
             },
-            "Areen": {
+            "areen": {
                 "first_name": "Areen",
-                "last_name": "pal",
+                "last_name": "Pal",
                 "email": "areen@churniq.ai",
                 "password": "areen123",
                 "logged_in": False,
             },
-            "Devang": {
+            "devang": {
                 "first_name": "Devang",
                 "last_name": "Borude",
                 "email": "devang@churniq.ai",
@@ -1066,7 +1066,10 @@ AUTH_CONFIG: dict = {
         "expiry_days": 1,
     },
 }
-PRO_USERS: set = {"Rohit", "demo", "Mahesh", "Karan", "Areen", "Devang"}
+
+PRO_USERS = set(
+    k.lower() for k in AUTH_CONFIG["credentials"]["usernames"].keys()
+)
 
 
 # ─────────────────────────────────────────────────────────────
