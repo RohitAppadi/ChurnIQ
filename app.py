@@ -178,7 +178,7 @@ AUTH_CONFIG: dict = {
         "usernames": {
             "rohit": {
                 "first_name": "Rohit",
-                "last_name": "Sharma",
+                "last_name": "Appadi",
                 "email": "rohit@churniq.ai",
                 "password": "password123",   # auto-hashed on first run
                 "logged_in": False,
