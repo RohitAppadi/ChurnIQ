@@ -1066,7 +1066,7 @@ AUTH_CONFIG: dict = {
         "expiry_days": 1,
     },
 }
-PRO_USERS: set = {"rohit,demo,mahesh,karan,areen,devang"}
+PRO_USERS: set = {"rohit,demo,Mahesh,Karan,Areen,Devang"}
 
 
 # ─────────────────────────────────────────────────────────────
