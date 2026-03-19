@@ -1,6 +1,6 @@
 streamlit
-pandas
-scikit-learn
+streamlit-authenticator>=0.3.0
 joblib
-streamlit-authenticator
-pyyaml
+pandas
+PyYAML
+bcrypt
