@@ -1020,7 +1020,7 @@ AUTH_CONFIG: dict = {
                 "first_name": "Rohit",
                 "last_name": "Appadi",
                 "email": "rohit@churniq.ai",
-                "password": "password123",
+                "password": "rohit123",
                 "logged_in": False,
             },
             "demo": {
@@ -1030,16 +1030,43 @@ AUTH_CONFIG: dict = {
                 "password": "demo456",
                 "logged_in": False,
             },
+            "Mahesh": {
+                "first_name": "Mahesh",
+                "last_name": "Panda",
+                "email": "mahesh@churniq.ai",
+                "password": "mahesh123",
+                "logged_in": False,
+            },
+            "Karan": {
+                "first_name": "Karan",
+                "last_name": "Pandit",
+                "email": "karan@churniq.ai",
+                "password": "karan123",
+                "logged_in": False,
+            },
+            "Areen": {
+                "first_name": "Areen",
+                "last_name": "pal",
+                "email": "areen@churniq.ai",
+                "password": "areen123",
+                "logged_in": False,
+            },
+            "Devang": {
+                "first_name": "Devang",
+                "last_name": "Borude",
+                "email": "devang@churniq.ai",
+                "password": "devang123",
+                "logged_in": False,
+            },
         }
     },
     "cookie": {
         "name": "churniq_auth_cookie",
-        "key":  "churniq_super_secret_key_xyz_2024",
+        "key": "churniq_super_secret_key_xyz_2024",
         "expiry_days": 1,
     },
 }
-
-PRO_USERS: set = {"rohit"}
+PRO_USERS: set = {"rohit,demo,mahesh,karan,areen,devang"}
 
 
 # ─────────────────────────────────────────────────────────────
