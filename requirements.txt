@@ -4,3 +4,4 @@ joblib
 pandas
 PyYAML
 bcrypt
+scikit-learn
